@@ -76,8 +76,7 @@ function MagneticButton({
   const handleMouseMove = (
     event: React.MouseEvent<HTMLAnchorElement>
   ) => {
-    const button =
-      buttonRef.current;
+    const button = buttonRef.current;
 
     if (!button) return;
 
@@ -109,8 +108,7 @@ function MagneticButton({
   };
 
   const handleMouseLeave = () => {
-    const button =
-      buttonRef.current;
+    const button = buttonRef.current;
 
     if (!button) return;
 
@@ -167,9 +165,7 @@ export default function Home() {
     );
 
   useEffect(() => {
-    let timeout:
-      | ReturnType<typeof window.setTimeout>
-      | undefined;
+    let timeout: number | undefined;
 
     const interval =
       window.setInterval(() => {
@@ -185,18 +181,13 @@ export default function Home() {
 
             setHeroPhase("enter");
           }, 700);
-
       }, 4500);
 
     return () => {
-      window.clearInterval(
-        interval
-      );
+      window.clearInterval(interval);
 
-      if (timeout) {
-        window.clearTimeout(
-          timeout
-        );
+      if (timeout !== undefined) {
+        window.clearTimeout(timeout);
       }
     };
   }, []);
@@ -233,7 +224,9 @@ export default function Home() {
           />
         </video>
 
-        {/* OVERLAYS */}
+        {/* =================================================
+            OVERLAYS
+        ================================================= */}
 
         <div className="hero__overlay" />
         <div className="hero__vignette" />
@@ -298,7 +291,9 @@ export default function Home() {
 
             </h1>
 
-            {/* DESCRIPTION */}
+            {/* =================================================
+                DESCRIPTION
+            ================================================= */}
 
             <div className="hero__description-mask">
 
@@ -315,7 +310,9 @@ export default function Home() {
 
             </div>
 
-            {/* BUTTONS */}
+            {/* =================================================
+                BUTTONS
+            ================================================= */}
 
             <div className="hero__actions">
 
