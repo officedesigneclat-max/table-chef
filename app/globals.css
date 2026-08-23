@@ -4761,3 +4761,122 @@ p:last-child {
 .tc-slider__content h3 {
   margin-top: 0 !important;
 }
+
+
+/* =========================================================
+   TABLE CHEF — MOBILE HERO TITLE CLIPPING FIX
+   Keeps multi-line animated titles fully visible on phones.
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .hero__content {
+    padding:
+      30px
+      15px
+      24px !important;
+  }
+
+  .hero__text-area {
+    transform: translateY(14px) !important;
+  }
+
+  .hero__title {
+    width: 100% !important;
+  }
+
+  .hero__mask--top {
+    height: 1.22em !important;
+
+    font-size:
+      clamp(
+        46px,
+        13.2vw,
+        68px
+      ) !important;
+  }
+
+  .hero__mask--bottom {
+    height: 2.05em !important;
+
+    margin-top:
+      -0.08em !important;
+
+    padding:
+      0.03em
+      0
+      0.10em !important;
+
+    font-size:
+      clamp(
+        48px,
+        13.8vw,
+        72px
+      ) !important;
+  }
+
+  .hero__title-top,
+  .hero__title-bottom {
+    white-space: normal !important;
+
+    line-height: 0.90 !important;
+
+    overflow: visible !important;
+  }
+
+  .hero__title-bottom {
+    padding-right: 0 !important;
+  }
+
+  .hero__description-mask {
+    max-width: 350px !important;
+
+    min-height: 0 !important;
+
+    margin-top: 10px !important;
+
+    overflow: visible !important;
+  }
+
+  .hero__actions {
+    margin-top: 14px !important;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .hero__mask--top {
+    height: 1.20em !important;
+
+    font-size:
+      clamp(
+        43px,
+        12.5vw,
+        59px
+      ) !important;
+  }
+
+  .hero__mask--bottom {
+    height: 2.12em !important;
+
+    font-size:
+      clamp(
+        45px,
+        13.2vw,
+        63px
+      ) !important;
+
+    line-height: 0.90 !important;
+  }
+
+  .hero__description {
+    font-size: 10px !important;
+
+    line-height: 1.65 !important;
+  }
+
+  .hero-button {
+    height: 55px !important;
+  }
+}
