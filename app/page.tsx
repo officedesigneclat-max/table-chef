@@ -1,69 +1,345 @@
+"use client";
+
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import Image from "next/image";
 
-export default function Home() {
+import {
+  Cormorant_Garamond,
+  Manrope,
+} from "next/font/google";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-manrope",
+});
+
+/* =========================================================
+   HERO SLIDES
+========================================================= */
+
+const heroSlides = [
+  {
+    top: "Extraordinary",
+    bottom: "Dining Experiences",
+    description:
+      "Discover exceptional flavours, beautiful presentation and memorable moments created around the table.",
+  },
+  {
+    top: "Unforgettable",
+    bottom: "Culinary Moments",
+    description:
+      "A refined dining experience where fresh ingredients, creativity and atmosphere come together.",
+  },
+  {
+    top: "Authentic",
+    bottom: "Local Flavours",
+    description:
+      "Inspired dishes, carefully prepared ingredients and a dining experience full of character.",
+  },
+  {
+    top: "Beautiful",
+    bottom: "Moments Together",
+    description:
+      "More than a meal. A place to share, enjoy and create memories around the table.",
+  },
+];
+
+/* =========================================================
+   MAGNETIC BUTTON
+========================================================= */
+
+function MagneticButton({
+  href,
+  children,
+  variant = "primary",
+}: {
+  href: string;
+  children: React.ReactNode;
+  variant?: "primary" | "outline";
+}) {
+  const buttonRef =
+    useRef<HTMLAnchorElement>(null);
+
+  const handleMouseMove = (
+    event: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    const button =
+      buttonRef.current;
+
+    if (!button) return;
+
+    const rect =
+      button.getBoundingClientRect();
+
+    const x =
+      event.clientX -
+      rect.left -
+      rect.width / 2;
+
+    const y =
+      event.clientY -
+      rect.top -
+      rect.height / 2;
+
+    button.style.setProperty(
+      "--mouse-x",
+      `${event.clientX - rect.left}px`
+    );
+
+    button.style.setProperty(
+      "--mouse-y",
+      `${event.clientY - rect.top}px`
+    );
+
+    button.style.transform =
+      `translate(${x * 0.11}px, ${y * 0.18}px)`;
+  };
+
+  const handleMouseLeave = () => {
+    const button =
+      buttonRef.current;
+
+    if (!button) return;
+
+    button.style.transform =
+      "translate(0px, 0px)";
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <a
+      ref={buttonRef}
+      href={href}
+      className={`hero-button hero-button--${variant}`}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      <span className="hero-button__background" />
+
+      <span className="hero-button__content">
+        <span className="hero-button__label">
+          {children}
+        </span>
+
+        <span className="hero-button__arrow">
+          <svg
+            viewBox="0 0 20 20"
+            aria-hidden="true"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+            <path
+              d="M5 15L15 5M8 5H15V12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </svg>
+        </span>
+      </span>
+    </a>
+  );
+}
+
+/* =========================================================
+   HOME PAGE
+========================================================= */
+
+export default function Home() {
+  const [heroIndex, setHeroIndex] =
+    useState(0);
+
+  const [heroPhase, setHeroPhase] =
+    useState<"enter" | "leave">(
+      "enter"
+    );
+
+  useEffect(() => {
+    let timeout:
+      | ReturnType<typeof window.setTimeout>
+      | undefined;
+
+    const interval =
+      window.setInterval(() => {
+        setHeroPhase("leave");
+
+        timeout =
+          window.setTimeout(() => {
+            setHeroIndex(
+              (previous) =>
+                (previous + 1) %
+                heroSlides.length
+            );
+
+            setHeroPhase("enter");
+          }, 700);
+
+      }, 4500);
+
+    return () => {
+      window.clearInterval(
+        interval
+      );
+
+      if (timeout) {
+        window.clearTimeout(
+          timeout
+        );
+      }
+    };
+  }, []);
+
+  const hero =
+    heroSlides[heroIndex];
+
+  return (
+    <main
+      className={`
+        ${cormorant.variable}
+        ${manrope.variable}
+        hero-page
+      `}
+    >
+      <section className="hero">
+
+        {/* =================================================
+            HOME VIDEO
+        ================================================= */}
+
+        <video
+          className="hero__video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        >
+          <source
+            src="/hero-video.mp4"
+            type="video/mp4"
+          />
+        </video>
+
+        {/* OVERLAYS */}
+
+        <div className="hero__overlay" />
+        <div className="hero__vignette" />
+        <div className="hero__bottom-shade" />
+
+        {/* =================================================
+            LOGO
+        ================================================= */}
+
+        <div className="hero__brand">
+          <div className="hero__logo">
+            <Image
+              src="/table-chef-logo-new.png"
+              alt="Table Chef"
+              fill
+              priority
+              sizes="260px"
+              className="object-contain"
+            />
+          </div>
         </div>
-      </main>
-    </div>
+
+        {/* =================================================
+            CONTENT
+        ================================================= */}
+
+        <div className="hero__content">
+
+          <div className="hero__text-area">
+
+            <h1 className="hero__title">
+
+              <span className="hero__mask hero__mask--top">
+
+                <span
+                  key={`top-${heroIndex}`}
+                  className={`hero__title-top ${
+                    heroPhase === "enter"
+                      ? "is-entering"
+                      : "is-leaving"
+                  }`}
+                >
+                  {hero.top}
+                </span>
+
+              </span>
+
+              <span className="hero__mask hero__mask--bottom">
+
+                <span
+                  key={`bottom-${heroIndex}`}
+                  className={`hero__title-bottom ${
+                    heroPhase === "enter"
+                      ? "is-entering"
+                      : "is-leaving"
+                  }`}
+                >
+                  {hero.bottom}
+                </span>
+
+              </span>
+
+            </h1>
+
+            {/* DESCRIPTION */}
+
+            <div className="hero__description-mask">
+
+              <p
+                key={`description-${heroIndex}`}
+                className={`hero__description ${
+                  heroPhase === "enter"
+                    ? "is-entering"
+                    : "is-leaving"
+                }`}
+              >
+                {hero.description}
+              </p>
+
+            </div>
+
+            {/* BUTTONS */}
+
+            <div className="hero__actions">
+
+              <MagneticButton
+                href="/menu"
+                variant="primary"
+              >
+                OUR MENUS
+              </MagneticButton>
+
+              <MagneticButton
+                href="#booking"
+                variant="outline"
+              >
+                BOOK YOUR TABLE
+              </MagneticButton>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+    </main>
   );
 }
